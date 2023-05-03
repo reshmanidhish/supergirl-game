@@ -20,7 +20,10 @@ Get the player movements to appear  and move through the game
 - If damage is equal to 3 then stop the game
 
 ### Backlog
-List of features you might implement after the MVP
+-set up the game with a landing page, start button, game description, and background image using HTML and the Canvas element:
+-In js file,create a myGameArea object, and store in properties everything related to it.
+-add logic to move player by adding component class, to move according to keyboard arrows so we need to add a keydown function attached to the document and add -to or subtract from our x or y positions.
+-add update game area functions
 
 ### Data structure
 List of classes and methods
