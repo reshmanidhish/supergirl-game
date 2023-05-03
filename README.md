@@ -21,13 +21,16 @@ Get the player movements to appear  and move through the game
 
 ### Backlog
 - Set up the game with a landing page, start button, game description, and background image using HTML and the Canvas element:
+- when the game starts the canvas  displayed should have the heath, damage and score buttons
 - Create a myGameArea object, and store in properties everything related to it.
 - Schedule updates and Clear the canvas
 - Add logic to move player by adding component class, to move according to keyboard arrows so we need to add a keydown function attached to the document and add -to or subtract from our x or y positions.
 - Add update game area functions
 - Add horizontal image looping method to move the building obstacle from right to left
 - Create  buildings as Obstacles and write functions such as update game area and update obstacles
-- As the game is supposed to end when we crash,create function to detect this crashes. 
+- falling meteors should be accomplished by moving elements on the speed we want to set to the elements.
+- As the game is supposed to end when we crash,create function to detect this crashes.
+- write functions to reduce health and damage 
 
 ### Data structure
 List of classes and methods
