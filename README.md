@@ -13,7 +13,11 @@ But that's not all you need to watch out for. Kryptonite meteors will also occas
 
 Your goal in "Supergirl's Heroic Quest" is to help Supergirl save the city by avoiding the buildings and kryptonite meteors as much as possible. You'll have a limited number of chances to touch the buildings, as touching more than three will cause the game to end. With quick reflexes and careful maneuvering, you'll be able to help Supergirl protect the city and emerge as a true hero!
 ### MVP
-MVP definition here, list of minimum features
+Get the player movements to appear  and move through the game
+- Get the buildings to appear randomly on loop
+- Display the player health and damage to the city on Canvas
+- If collision between buildings and player, increase damage by 1
+- If damage is equal to 3 then stop the game
 
 ### Backlog
 List of features you might implement after the MVP
