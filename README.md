@@ -32,6 +32,10 @@ Get the player movements to appear  and move through the game
 - As the game is supposed to end when we crash,create function to detect this crashes.
 - write functions to reduce health and damage 
 
+### Game Flow Diagram
+
+<img src="https://user-images.githubusercontent.com/43141343/236056008-e6e51a51-5fd4-490c-8b6c-2a2911ef7c1c.png" width="700"/>
+
 ### Data structure
 List of classes and methods
 
