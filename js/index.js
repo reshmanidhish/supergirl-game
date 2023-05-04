@@ -1,15 +1,18 @@
 const myObstacles = [];
 
 const myGameArea = {
+  
   canvas: document.createElement("canvas"),
   frames: 0,
   start: function() {
+    //gameCanvas
     this.canvas.width = 480;
     this.canvas.height = 270;
+    
     this.context = this.canvas.getContext("2d");
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     // call updateGameArea() every 20 milliseconds
-    this.interval = setInterval(updateGameArea, 20);
+    this.interval = setInterval(updateGameArea, 1);
   },
   clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -124,17 +127,17 @@ function updateObstacles() {
   myGameArea.frames += 1;
   if (myGameArea.frames % 120 === 0) {
     let x = myGameArea.canvas.width;
-    let minHeight = 20;
+    let minHeight = 50;
     let maxHeight = 200;
     let height = Math.floor(
       Math.random() * (maxHeight - minHeight + 1) + minHeight
     );
     let minGap = 50;
-    let maxGap = 200;
+    let maxGap = 50;
     let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
     // myObstacles.push(new Component(10, height, "green", x, 0));
     myObstacles.push(
-      new Component(30, x - height - gap, "/images/building.webp", x, height + gap)
+      new Component(200, x - height - gap, "/images/Apartment.png", x, height + gap)
     );
   }
 }
