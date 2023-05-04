@@ -1,18 +1,47 @@
 const myObstacles = [];
 
 const myGameArea = {
-  
+    startCanvas: document.createElement("canvas"),
   canvas: document.createElement("canvas"),
   frames: 0,
   start: function() {
+//landing page canvas
+this.startCanvas.width = 1000;
+this.startCanvas.height = 600;
+this.startContext = this.startCanvas.getContext("2d");
+this.startCanvas.style.display = "block";
+document.body.insertBefore(this.startCanvas, document.body.childNodes[0]);
+
+// landing page game description along with start button
+const backgroundImage = new Image();
+    backgroundImage.src = "/images/background city landing page.png";
+    backgroundImage.onload = () => {
+      // Draw the image on the starting canvas
+      this.startContext.drawImage(backgroundImage, 0, 0, this.startCanvas.width, this.startCanvas.height);
+
+    this.startContext.fillStyle = "black";
+    this.startContext.font = "30px Arial";
+    this.startContext.fillText("Click to Start", this.startCanvas.width / 2 - 90, this.startCanvas.height / 2 - 30);
+    this.startContext.font = "20px Arial";
+    this.startContext.fillText("Game Description", this.startCanvas.width / 2 - 90, this.startCanvas.height / 2 + 20);
+
+
+    this.startCanvas.addEventListener("click", () => {
+
+        // to hide canvas
+        this.startCanvas.style.display = "none";
+        this.canvas.style.display = "block";   
+
     //gameCanvas
-    this.canvas.width = 480;
-    this.canvas.height = 270;
+    this.canvas.width = 1000;
+    this.canvas.height = 600;
     
     this.context = this.canvas.getContext("2d");
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
     // call updateGameArea() every 20 milliseconds
     this.interval = setInterval(updateGameArea, 1);
+})
+    }
   },
   clear: function() {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -133,7 +162,7 @@ function updateObstacles() {
       Math.random() * (maxHeight - minHeight + 1) + minHeight
     );
     let minGap = 50;
-    let maxGap = 50;
+    let maxGap = 70;
     let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
     // myObstacles.push(new Component(10, height, "green", x, 0));
     myObstacles.push(
