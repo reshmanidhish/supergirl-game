@@ -8,11 +8,12 @@ const myGameArea = {
     //landing page canvas
     this.startCanvas.width = 1000;
     this.startCanvas.height = 600;
+    this.startCanvas.style.border = "2px solid grey";
     this.startContext = this.startCanvas.getContext("2d");
     this.startCanvas.style.display = "block";
     document.body.insertBefore(this.startCanvas, document.body.childNodes[0]);
 
-    // landing page background image setting 
+    // landing page background image setting
     const backgroundImage = new Image();
     backgroundImage.src = "/images/background city landing page.png";
     backgroundImage.onload = () => {
@@ -26,23 +27,43 @@ const myGameArea = {
       );
       // to draw the supergirl image
       const supergirlImage = new Image();
-  supergirlImage.src = "/images/supergirl.png";
-  supergirlImage.onload = () => {
-    // Draw Supergirl's image on the canvas
-    const supergirlWidth = 150;
-    const supergirlHeight = 150;
-    const supergirlX = 0;
-    const supergirlY = (this.startCanvas.height - supergirlHeight) / 2;
-    this.startContext.drawImage(supergirlImage, supergirlX, supergirlY, supergirlWidth, supergirlHeight);
-  };
+      supergirlImage.src = "/images/supergirl.png";
+      supergirlImage.onload = () => {
+        // Draw Supergirl's image on the canvas
+        const supergirlWidth = 150;
+        const supergirlHeight = 150;
+        const supergirlX = 0;
+        const supergirlY = (this.startCanvas.height - supergirlHeight) / 2;
+        this.startContext.drawImage(
+          supergirlImage,
+          supergirlX,
+          supergirlY,
+          supergirlWidth,
+          supergirlHeight
+        );
+      };
 
       this.startContext.fillStyle = "black";
       this.startContext.font = "30px Arial";
-      this.startContext.fillText(
-        "Click to start",
-        this.startCanvas.width / 2 - 90,
-        this.startCanvas.height / 2 - 30
+
+      // Create the button in a new canvas
+      const buttonCanvas = document.createElement("canvas");
+      buttonCanvas.width = 120;
+      buttonCanvas.height = 40;
+      const buttonCtx = buttonCanvas.getContext("2d");
+
+      // Draw the button
+      buttonCtx.fillStyle = "#106cb0";
+      buttonCtx.fillRect(0, 0, buttonCanvas.width, buttonCanvas.height);
+      buttonCtx.fillStyle = "white";
+      buttonCtx.font = "20px Arial";
+      buttonCtx.fillText("Start", 37, 27);
+      this.startContext.drawImage(
+        buttonCanvas,
+        this.startCanvas.width / 2 - 70,
+        this.startCanvas.height / 2 - 110
       );
+
       this.startContext.font = "30px Arial";
       this.startContext.fillText(
         "Supergirl's Heroic Quest",
@@ -70,13 +91,10 @@ const myGameArea = {
         this.startCanvas.style.display = "none";
         this.canvas.style.display = "block";
 
-       
-       
-       
         //gameCanvas
         this.canvas.width = 800;
         this.canvas.height = 600;
-
+        this.canvas.style.border = "2px solid black";
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
@@ -163,7 +181,7 @@ class Component {
       if (this.damage >= 3) {
         return true;
       } else {
-        this.restartPos()
+        this.restartPos();
       }
     }
     return false;
@@ -172,39 +190,43 @@ class Component {
 
 const player = new Component(50, 50, "/images/supergirl.png", 0, 110);
 class Meteor extends Component {
-    constructor(width, height, imageUrl, x, y) {
-      super(width, height, imageUrl, x, y);
-      this.y = Math.floor(Math.random() * (myGameArea.canvas.height - this.height));
-      this.speedX = 2;
-      this.img.src = "/images/main meteor.png";
-    }
+  constructor(width, height, imageUrl, x, y) {
+    super(width, height, imageUrl, x, y);
+    this.y = Math.floor(
+      Math.random() * (myGameArea.canvas.height - this.height)
+    );
+    this.speedX = 2;
+    this.img.src = "/images/meteor1.png";
   }
-  
-  const meteors = [];
-  
-  function updateMeteors() {
-    for (let i = 0; i < meteors.length; i++) {
-      meteors[i].x -= meteors[i].speedX;
-      meteors[i].update();
-      if (player.crashWith(meteors[i])) {
-        player.damage += 1;
-        if (player.damage >= 3) {
-          myGameArea.stop();
-        } else {
-          player.restartPos();
-        }
-        meteors.splice(i, 1);
-        i--;
-      } else if (meteors[i].x + meteors[i].width < 0) {
-        meteors.splice(i, 1);
-        i--;
+}
+
+const meteors = [];
+
+function updateMeteors() {
+  for (let i = 0; i < meteors.length; i++) {
+    meteors[i].x -= meteors[i].speedX;
+    meteors[i].update();
+    if (player.crashWith(meteors[i])) {
+      player.damage += 1;
+      if (player.damage >= 3) {
+        myGameArea.stop();
+      } else {
+        player.restartPos();
       }
-    }
-  
-    if (myGameArea.frames % 120 === 0) {
-      meteors.push(new Meteor(50, 50, "/images/main meteor.png", myGameArea.canvas.width, 0));
+      meteors.splice(i, 1);
+      i--;
+    } else if (meteors[i].x + meteors[i].width < 0) {
+      meteors.splice(i, 1);
+      i--;
     }
   }
+
+  if (myGameArea.frames % 120 === 0) {
+    meteors.push(
+      new Meteor(50, 50, "/images/meteor1.png", myGameArea.canvas.width, 0)
+    );
+  }
+}
 
 function updateGameArea() {
   myGameArea.clear();
@@ -220,7 +242,7 @@ function updateGameArea() {
   myGameArea.context.font = "18px serif";
   myGameArea.context.fillStyle = "black";
   myGameArea.context.fillText(`Damage: ${player.damage}`, 20, 50);
-  updateMeteors()
+  updateMeteors();
 }
 
 myGameArea.start(); // Starting of the game
