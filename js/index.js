@@ -3,19 +3,22 @@ const myObstacles = [];
 const myGameArea = {
   startCanvas: document.createElement("canvas"),
   canvas: document.createElement("canvas"),
+  buttonCanvas: document.createElement("canvas"),
   frames: 0,
+
   start: function () {
     //landing page canvas
     this.startCanvas.width = 1000;
     this.startCanvas.height = 600;
     this.startCanvas.style.border = "2px solid grey";
     this.startContext = this.startCanvas.getContext("2d");
+    this.buttonCtx = this.buttonCanvas.getContext("2d");
     this.startCanvas.style.display = "block";
     document.body.insertBefore(this.startCanvas, document.body.childNodes[0]);
 
     // landing page background image setting
     const backgroundImage = new Image();
-    backgroundImage.src = "/images/background city landing page.png";
+    backgroundImage.src = "images/background.png";
     backgroundImage.onload = () => {
       // Draw the image on the starting canvas
       this.startContext.drawImage(
@@ -27,7 +30,7 @@ const myGameArea = {
       );
       // to draw the supergirl image
       const supergirlImage = new Image();
-      supergirlImage.src = "/images/supergirl.png";
+      supergirlImage.src = "images/supergirl.png";
       supergirlImage.onload = () => {
         // Draw Supergirl's image on the canvas
         const supergirlWidth = 150;
@@ -47,19 +50,22 @@ const myGameArea = {
       this.startContext.font = "30px Arial";
 
       // Create the button in a new canvas
-      const buttonCanvas = document.createElement("canvas");
-      buttonCanvas.width = 120;
-      buttonCanvas.height = 40;
-      const buttonCtx = buttonCanvas.getContext("2d");
+      this.buttonCanvas.width = 120;
+      this.buttonCanvas.height = 40;
 
       // Draw the button
-      buttonCtx.fillStyle = "#106cb0";
-      buttonCtx.fillRect(0, 0, buttonCanvas.width, buttonCanvas.height);
-      buttonCtx.fillStyle = "white";
-      buttonCtx.font = "20px Arial";
-      buttonCtx.fillText("Start", 37, 27);
+      this.buttonCtx.fillStyle = "#106cb0";
+      this.buttonCtx.fillRect(
+        0,
+        0,
+        this.buttonCanvas.width,
+        this.buttonCanvas.height
+      );
+      this.buttonCtx.fillStyle = "white";
+      this.buttonCtx.font = "20px Arial";
+      this.buttonCtx.fillText("Start", 37, 27);
       this.startContext.drawImage(
-        buttonCanvas,
+        this.buttonCanvas,
         this.startCanvas.width / 2 - 70,
         this.startCanvas.height / 2 - 110
       );
@@ -86,6 +92,7 @@ const myGameArea = {
         this.startCanvas.width / 20,
         160
       );
+
       this.startCanvas.addEventListener("click", () => {
         // to hide canvas
         this.startCanvas.style.display = "none";
@@ -188,7 +195,7 @@ class Component {
   }
 }
 
-const player = new Component(50, 50, "/images/supergirl.png", 0, 110);
+const player = new Component(50, 50, "images/supergirl.png", 0, 110);
 class Meteor extends Component {
   constructor(width, height, imageUrl, x, y) {
     super(width, height, imageUrl, x, y);
@@ -196,7 +203,7 @@ class Meteor extends Component {
       Math.random() * (myGameArea.canvas.height - this.height)
     );
     this.speedX = 2;
-    this.img.src = "/images/meteor1.png";
+    this.img.src = "images/meteor.png";
   }
 }
 
@@ -223,7 +230,7 @@ function updateMeteors() {
 
   if (myGameArea.frames % 120 === 0) {
     meteors.push(
-      new Meteor(50, 50, "/images/meteor1.png", myGameArea.canvas.width, 0)
+      new Meteor(50, 50, "images/meteor.png", myGameArea.canvas.width, 0)
     );
   }
 }
@@ -244,7 +251,7 @@ function updateGameArea() {
   myGameArea.context.fillText(`Damage: ${player.damage}`, 20, 50);
   updateMeteors();
 }
-
+ 
 myGameArea.start(); // Starting of the game
 
 document.onkeydown = function (e) {
@@ -291,7 +298,7 @@ function updateObstacles() {
       new Component(
         200,
         x - height - gap,
-        "/images/Apartment.png",
+        "/images/apartment.png",
         x,
         height + gap
       )
