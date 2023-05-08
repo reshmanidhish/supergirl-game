@@ -1,15 +1,19 @@
 const myObstacles = [];
+let music;
 
 const myGameArea = {
-  startCanvas: document.createElement("canvas"),  // Landing Page
-  buttonCanvas: document.createElement("canvas"), // Start button in Landing page
-  gameCanvas: document.createElement("canvas"),   // Game canvas
+  startCanvas: document.createElement("canvas"),
+  gameCanvas: document.createElement("canvas"),
+  buttonCanvas: document.createElement("canvas"),
+  gameOverCanvas: document.createElement("canvas"),
+
   frames: 0,
 
   start: function () {
+    
     //landing page canvas
     this.startCanvas.width = 1000;
-    this.startCanvas.height = 600;
+    this.startCanvas.height = 580;
     this.startCanvas.style.border = "2px solid grey";
     this.startContext = this.startCanvas.getContext("2d");
     this.buttonCtx = this.buttonCanvas.getContext("2d");
@@ -89,15 +93,62 @@ const myGameArea = {
         this.context = this.gameCanvas.getContext("2d");
         document.body.insertBefore(this.gameCanvas, document.body.childNodes[0]);
 
-        this.interval = setInterval(updateGameArea, 1); // called every 1 seconds
+        this.interval = setInterval(updateGameArea, 1);
+
+        //background music
+        music = new sound("sound/game-music.mp3");
+        music.play();      
       });
     };
   },
+
   clear: function () {
     this.context.clearRect(0, 0, this.gameCanvas.width, this.gameCanvas.height);
   },
   stop: function () {
     clearInterval(this.interval);
+    music.stop();
+    let gameOverMusic;
+    gameOverMusic = new sound("sound/game-over.wav");
+    gameOverMusic.play();
+
+    myGameArea.clear();    
+
+    //gameover page
+    this.gameOverCanvas.width = 1000;
+    this.gameOverCanvas.height = 580;
+    this.gameOverCanvas.style.border = "2px solid grey";
+    this.gameOverContext = this.gameOverCanvas.getContext("2d");
+    this.gameOverCanvas.style.display = "block";
+    document.body.insertBefore(this.gameOverCanvas, document.body.childNodes[0]);
+
+    // landing page background image setting
+    const bgGameOver = new Image();
+    bgGameOver.src = "images/background.png";
+    bgGameOver.onload = () => {
+      // Draw the image on the starting canvas
+      this.gameOverContext.drawImage(
+        bgGameOver,
+        0,
+        0,
+        this.gameOverCanvas.width,
+        this.gameOverCanvas.height
+      )
+
+      this.gameOverContext.font = "30px Arial";
+      this.gameOverContext.fillStyle = "black";
+      this.gameOverContext.fillText(
+        "GAME OVER",
+        this.gameOverCanvas.width / 2 - 90,
+        50
+      );
+    
+    }
+
+      
+
+      
+
   },
   score: function () {
     const points = Math.floor(this.frames / 5);
@@ -347,5 +398,20 @@ function checkGameOver() {
   }
 }
 
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
 
 myGameArea.start(); // Starting of the game
+
