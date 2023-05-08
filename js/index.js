@@ -127,6 +127,44 @@ const myGameArea = {
     let gameOverMusic;
     gameOverMusic = new sound("sound/game-over.wav");
     gameOverMusic.play();
+
+    myGameArea.clear();    
+
+    //gameover page
+    this.gameOverCanvas.width = 1000;
+    this.gameOverCanvas.height = 580;
+    this.gameOverCanvas.style.border = "2px solid grey";
+    this.gameOverContext = this.gameOverCanvas.getContext("2d");
+    this.gameOverCanvas.style.display = "block";
+    document.body.insertBefore(this.gameOverCanvas, document.body.childNodes[0]);
+
+    // landing page background image setting
+    const bgGameOver = new Image();
+    bgGameOver.src = "images/background.png";
+    bgGameOver.onload = () => {
+      // Draw the image on the starting canvas
+      this.gameOverContext.drawImage(
+        bgGameOver,
+        0,
+        0,
+        this.gameOverCanvas.width,
+        this.gameOverCanvas.height
+      )
+
+      this.gameOverContext.font = "30px Arial";
+      this.gameOverContext.fillStyle = "black";
+      this.gameOverContext.fillText(
+        "GAME OVER",
+        this.gameOverCanvas.width / 2 - 90,
+        50
+      );
+    
+    }
+
+      
+
+      
+
   },
   score: function () {
     const points = Math.floor(this.frames / 5);
@@ -344,5 +382,4 @@ function sound(src) {
     this.sound.pause();
   }
 }
-
 
