@@ -4,12 +4,14 @@ const myGameArea = {
   startCanvas: document.createElement("canvas"),
   canvas: document.createElement("canvas"),
   buttonCanvas: document.createElement("canvas"),
+  gameOverCanvas: document.createElement("canvas"),
   frames: 0,
 
   start: function () {
+    
     //landing page canvas
     this.startCanvas.width = 1000;
-    this.startCanvas.height = 600;
+    this.startCanvas.height = 580;
     this.startCanvas.style.border = "2px solid grey";
     this.startContext = this.startCanvas.getContext("2d");
     this.buttonCtx = this.buttonCanvas.getContext("2d");
@@ -100,15 +102,22 @@ const myGameArea = {
 
         //gameCanvas
         this.canvas.width = 800;
-        this.canvas.height = 600;
+        this.canvas.height = 580;
         this.canvas.style.border = "2px solid black";
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
 
         this.interval = setInterval(updateGameArea, 1);
+
+        //background music
+        let music;
+        music = new sound("sound/game-music.mp3");
+        music.play();      
+
       });
     };
   },
+
   clear: function () {
     this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
   },
@@ -196,6 +205,7 @@ class Component {
 }
 
 const player = new Component(50, 50, "images/supergirl.png", 0, 110);
+
 class Meteor extends Component {
   constructor(width, height, imageUrl, x, y) {
     super(width, height, imageUrl, x, y);
@@ -315,3 +325,20 @@ function checkGameOver() {
     myGameArea.stop();
   }
 }
+
+function sound(src) {
+  this.sound = document.createElement("audio");
+  this.sound.src = src;
+  this.sound.setAttribute("preload", "auto");
+  this.sound.setAttribute("controls", "none");
+  this.sound.style.display = "none";
+  document.body.appendChild(this.sound);
+  this.play = function(){
+    this.sound.play();
+  }
+  this.stop = function(){
+    this.sound.pause();
+  }
+}
+
+
