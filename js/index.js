@@ -1,9 +1,9 @@
 const myObstacles = [];
 
 const myGameArea = {
-  startCanvas: document.createElement("canvas"),
-  canvas: document.createElement("canvas"),
-  buttonCanvas: document.createElement("canvas"),
+  startCanvas: document.createElement("canvas"),  // Landing Page
+  buttonCanvas: document.createElement("canvas"), // Start button in Landing page
+  gameCanvas: document.createElement("canvas"),   // Game canvas
   frames: 0,
 
   start: function () {
@@ -21,29 +21,17 @@ const myGameArea = {
     backgroundImage.src = "images/background.png";
     backgroundImage.onload = () => {
       // Draw the image on the starting canvas
-      this.startContext.drawImage(
-        backgroundImage,
-        0,
-        0,
-        this.startCanvas.width,
-        this.startCanvas.height
-      );
+      this.startContext.drawImage(backgroundImage, 0, 0, this.startCanvas.width, this.startCanvas.height);
       // to draw the supergirl image
       const supergirlImage = new Image();
       supergirlImage.src = "images/supergirl.png";
       supergirlImage.onload = () => {
-        // Draw Supergirl's image on the canvas
+        // Draw Supergirl's image on the startcanvas
         const supergirlWidth = 150;
-        const supergirlHeight = 150;
-        const supergirlX = 0;
-        const supergirlY = (this.startCanvas.height - supergirlHeight) / 2;
-        this.startContext.drawImage(
-          supergirlImage,
-          supergirlX,
-          supergirlY,
-          supergirlWidth,
-          supergirlHeight
-        );
+        const supergirlHeight = 110;
+        const supergirlX = 45;
+        const supergirlY = (this.startCanvas.height - supergirlHeight) / 2.4; 
+        this.startContext.drawImage(supergirlImage, supergirlX, supergirlY, supergirlWidth, supergirlHeight);
       };
 
       this.startContext.fillStyle = "black";
@@ -55,12 +43,8 @@ const myGameArea = {
 
       // Draw the button
       this.buttonCtx.fillStyle = "#106cb0";
-      this.buttonCtx.fillRect(
-        0,
-        0,
-        this.buttonCanvas.width,
-        this.buttonCanvas.height
-      );
+      this.buttonCtx.fillRect(0,0, this.buttonCanvas.width,this.buttonCanvas.height);
+
       this.buttonCtx.fillStyle = "white";
       this.buttonCtx.font = "20px Arial";
       this.buttonCtx.fillText("Start", 37, 27);
@@ -96,21 +80,21 @@ const myGameArea = {
       this.startCanvas.addEventListener("click", () => {
         // to hide canvas
         this.startCanvas.style.display = "none";
-        this.canvas.style.display = "block";
+        this.gameCanvas.style.display = "block";
 
         //gameCanvas
-        this.canvas.width = 800;
-        this.canvas.height = 600;
-        this.canvas.style.border = "2px solid black";
-        this.context = this.canvas.getContext("2d");
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+        this.gameCanvas.width = 800;
+        this.gameCanvas.height = 600;
+        this.gameCanvas.style.border = "2px solid black";
+        this.context = this.gameCanvas.getContext("2d");
+        document.body.insertBefore(this.gameCanvas, document.body.childNodes[0]);
 
-        this.interval = setInterval(updateGameArea, 1);
+        this.interval = setInterval(updateGameArea, 1); // called every 1 seconds
       });
     };
   },
   clear: function () {
-    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.context.clearRect(0, 0, this.gameCanvas.width, this.gameCanvas.height);
   },
   stop: function () {
     clearInterval(this.interval);
@@ -123,6 +107,9 @@ const myGameArea = {
   },
 };
 
+
+
+// Component class is a common class used for creating supergirl, building and meteor
 class Component {
   constructor(width, height, imageUrl, x, y) {
     this.width = width;
@@ -177,7 +164,7 @@ class Component {
   }
 
   crashWith(obstacle) {
-    const crashed = !(
+    const crashed = ! (
       this.bottom() < obstacle.top() ||
       this.top() > obstacle.bottom() ||
       this.right() < obstacle.left() ||
@@ -195,48 +182,98 @@ class Component {
   }
 }
 
-const player = new Component(50, 50, "images/supergirl.png", 0, 110);
+const player = new Component(70, 60, "images/supergirl.png", 0, 110); // Supergirl
+
 class Meteor extends Component {
-  constructor(width, height, imageUrl, x, y) {
+constructor(width, height, imageUrl, x, y) {
     super(width, height, imageUrl, x, y);
+    
     this.y = Math.floor(
-      Math.random() * (myGameArea.canvas.height - this.height)
+      Math.random() * (myGameArea.gameCanvas.height - this.height)
     );
-    this.speedX = 2;
-    this.img.src = "images/meteor.png";
+
+    this.speedX = 1.2;
+    this.img.src = imageUrl;
   }
 }
 
 const meteors = [];
 
-function updateMeteors() {
+function updateMeteors() { // calls every 1 seconds
   for (let i = 0; i < meteors.length; i++) {
-    meteors[i].x -= meteors[i].speedX;
+    meteors[i].x -= meteors[i].speedX; // initially the speed of the player is 2 and x axis is 800. Here we are decrementing the x axis by 2
     meteors[i].update();
-    if (player.crashWith(meteors[i])) {
+
+    
+    if (player.crashWith(meteors[i])) { // Checking if player got crashed with Meteros 
       player.damage += 1;
-      if (player.damage >= 3) {
+      if (player.damage >= 3) { // Checking if player got crashed with Meteros more than 3
         myGameArea.stop();
       } else {
         player.restartPos();
       }
-      meteors.splice(i, 1);
-      i--;
-    } else if (meteors[i].x + meteors[i].width < 0) {
+     meteors.splice(i, 1); // removing the crashed meteors with the player
+     i--;
+    } else if (meteors[i].x + meteors[i].width < 0) { //Deleting the meteors from meteors array which are out of the frame
       meteors.splice(i, 1);
       i--;
     }
+    console.log(meteors)
   }
 
-  if (myGameArea.frames % 120 === 0) {
+  if (myGameArea.frames % 150 === 0) {
     meteors.push(
-      new Meteor(50, 50, "images/meteor.png", myGameArea.canvas.width, 0)
+      new Meteor(50, 50, "images/meteor.png", myGameArea.gameCanvas.width, 0)
     );
   }
 }
 
+// create the background canvas
+let backgroundImage = new Image();
+backgroundImage.src = "images/game-background.jpg";
+backgroundImage.width = 1200; // set the width of the background image
+backgroundImage.x = 0; // initialize the x position
+
+
+// let background = new Image();
+// background.src = "images/game-background.jpg";
+// let backgroundX = 0;
+// let backgroundSpeed = 1;
+
 function updateGameArea() {
   myGameArea.clear();
+  
+//   // Move the background to the left
+//  backgroundX -= backgroundSpeed;
+  
+//   // Wrap the background to create a continuous scrolling effect
+//   if (backgroundX <= -myGameArea.gameCanvas.width) { //-800
+//     backgroundX = 0;
+//   }
+   // draw the moving background image
+   backgroundImage.x -= 1;
+   myGameArea.context.drawImage(
+     backgroundImage,
+     backgroundImage.x,
+     0,
+     backgroundImage.width,
+     myGameArea.gameCanvas.height
+   );
+   myGameArea.context.drawImage(
+     backgroundImage,
+     backgroundImage.x + backgroundImage.width,
+     0,
+     backgroundImage.width,
+     myGameArea.gameCanvas.height
+   );
+   if (backgroundImage.x <= -backgroundImage.width) {
+     backgroundImage.x = 0;
+   }
+  // Draw the background image
+ // myGameArea.context.drawImage(background, backgroundX, 0, myGameArea.gameCanvas.width, myGameArea.gameCanvas.height);
+  
+
+
   // update the player's position before drawing
   player.newPos();
   player.update();
@@ -252,7 +289,7 @@ function updateGameArea() {
   updateMeteors();
 }
  
-myGameArea.start(); // Starting of the game
+
 
 document.onkeydown = function (e) {
   switch (e.keyCode) {
@@ -283,8 +320,9 @@ function updateObstacles() {
   }
 
   myGameArea.frames += 1;
+  
   if (myGameArea.frames % 120 === 0) {
-    let x = myGameArea.canvas.width;
+    let x = myGameArea.gameCanvas.width;
     let minHeight = 50;
     let maxHeight = 100;
     let height = Math.floor(
@@ -294,15 +332,8 @@ function updateObstacles() {
     let maxGap = 100;
     let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
-    myObstacles.push(
-      new Component(
-        200,
-        x - height - gap,
-        "/images/apartment.png",
-        x,
-        height + gap
-      )
-    );
+    const building = new Component(200, x - height - gap, "/images/apartment.png", x, height + gap)
+    myObstacles.push(building);
   }
 }
 
@@ -315,3 +346,6 @@ function checkGameOver() {
     myGameArea.stop();
   }
 }
+
+
+myGameArea.start(); // Starting of the game
