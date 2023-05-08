@@ -1,4 +1,5 @@
 const myObstacles = [];
+let music;
 
 const myGameArea = {
   startCanvas: document.createElement("canvas"),
@@ -110,7 +111,6 @@ const myGameArea = {
         this.interval = setInterval(updateGameArea, 1);
 
         //background music
-        let music;
         music = new sound("sound/game-music.mp3");
         music.play();      
 
@@ -123,6 +123,10 @@ const myGameArea = {
   },
   stop: function () {
     clearInterval(this.interval);
+    music.stop();
+    let gameOverMusic;
+    gameOverMusic = new sound("sound/game-over.wav");
+    gameOverMusic.play();
   },
   score: function () {
     const points = Math.floor(this.frames / 5);
