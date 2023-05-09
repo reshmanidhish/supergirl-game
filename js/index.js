@@ -120,6 +120,7 @@ const myGameArea = {
     this.gameOverCanvas.style.border = "2px solid grey";
     this.gameOverContext = this.gameOverCanvas.getContext("2d");
     this.gameOverCanvas.style.display = "block";
+    this.gameCanvas.style.display = "none";
     document.body.insertBefore(this.gameOverCanvas, document.body.childNodes[0]);
 
     // landing page background image setting
@@ -135,12 +136,12 @@ const myGameArea = {
         this.gameOverCanvas.height
       )
 
-      this.gameOverContext.font = "30px Arial";
-      this.gameOverContext.fillStyle = "black";
+      this.gameOverContext.font = "bold 70px Arial";
+      this.gameOverContext.fillStyle = "purple";
       this.gameOverContext.fillText(
         "GAME OVER",
-        this.gameOverCanvas.width / 2 - 90,
-        50
+        this.gameOverCanvas.width / 2-250,
+        150
       );
     
     }
