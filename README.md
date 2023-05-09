@@ -47,8 +47,8 @@ Local Storage
 JS Audio() and JS Image()
 
 ### index.js
-start: function ()
-clear: function ()
+- start: function ()
+- clear: function ()
 stop: function ()
 score: function ()
 Component class is for manupilating supergirl, building and meteors
