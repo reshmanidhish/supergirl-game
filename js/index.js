@@ -38,7 +38,7 @@ const myGameArea = {
         this.startContext.drawImage(supergirlImage, supergirlX, supergirlY, supergirlWidth, supergirlHeight);
       };
 
-      this.startContext.fillStyle = "black";
+      this.startContext.fillStyle = "#0039e6";
       this.startContext.font = "30px Arial";
 
       // Create the button in a new canvas
@@ -58,26 +58,26 @@ const myGameArea = {
         this.startCanvas.height / 2 - 110
       );
 
-      this.startContext.font = "30px Arial";
+      this.startContext.font = "bold 40px Arial";
       this.startContext.fillText(
         "Supergirl's Heroic Quest",
-        this.startCanvas.width / 2 - 90,
-        50
+        this.startCanvas.width / 2 - 240,
+        60
       );
-      this.startContext.font = "16px Arial";
+      this.startContext.font = "14px Arial";
       this.startContext.fillText(
         "The game is about a Supergirl which fly through the city using arrow keys,but be careful not to hit the buildings or else ",
-        this.startCanvas.width / 20,
-        80
-      );
-      this.startContext.fillText(
-        "the city will take damage.Also watch out for kryptonite meteors ,which will decrease your health by 50% if you touch them.",
-        this.startCanvas.width / 20,
+        this.startCanvas.width / 7,
         120
       );
       this.startContext.fillText(
+        "the city will take damage.Also watch out for kryptonite meteors ,which will decrease your health by 50% if you touch them.",
+        this.startCanvas.width / 7,
+        140
+      );
+      this.startContext.fillText(
         "If you hit three buidings or your health goes to 0%,it's game over.Help Supergirl protect the city and emerge as a true hero.",
-        this.startCanvas.width / 20,
+        this.startCanvas.width / 7,
         160
       );
 
