@@ -36,13 +36,45 @@ Get the player movements to appear  and move through the game
 
 <img src="https://user-images.githubusercontent.com/43141343/236056008-e6e51a51-5fd4-490c-8b6c-2a2911ef7c1c.png" width="700"/>
 
-### Data structure
-List of classes and methods
+### Technologies Used
+HTML
+CSS
+JavaScript
+DOM Manipulation
+JS Canvas
+JS Classes
+Local Storage
+JS Audio() and JS Image()
 
-### States y States Transitions
-List of states (views) of your game
+### index.js
+start: function ()
+clear: function ()
+stop: function ()
+score: function ()
+Component class is for manupilating supergirl, building and meteors
+update()
+newPos()
+restartPos()
+left()
+right()
+top()
+bottom()
+crashWith(obstacle)
+Creating meteor class that extends component class
+function updateMeteors()
+function updateGameArea()
+myGameArea.clear()
+player.newPos()
+player.update()
+updateObstacles()
+checkGameOver()
 
-### Task
-List of tasks in order of priority
+### States 
+Start Screen
+Game Screen
+Game Over Screen
 
 ### Links
+Trello
+Slides
+Deploy
