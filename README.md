@@ -75,6 +75,6 @@ Get the player movements to appear  and move through the game
 - Game Over Screen
 
 ### Links
-- Trello
+- Trello https://trello.com/b/1aXujsfw/supergirls-heroic-quest
 - Slides
 - Deploy
