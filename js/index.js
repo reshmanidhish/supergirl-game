@@ -10,7 +10,6 @@ const myGameArea = {
   frames: 0,
 
   start: function () {
-    
     //landing page canvas
     this.startCanvas.width = 1000;
     this.startCanvas.height = 580;
@@ -25,7 +24,13 @@ const myGameArea = {
     backgroundImage.src = "images/background.png";
     backgroundImage.onload = () => {
       // Draw the image on the starting canvas
-      this.startContext.drawImage(backgroundImage, 0, 0, this.startCanvas.width, this.startCanvas.height);
+      this.startContext.drawImage(
+        backgroundImage,
+        0,
+        0,
+        this.startCanvas.width,
+        this.startCanvas.height
+      );
       // to draw the supergirl image
       const supergirlImage = new Image();
       supergirlImage.src = "images/supergirl.png";
@@ -34,8 +39,14 @@ const myGameArea = {
         const supergirlWidth = 150;
         const supergirlHeight = 110;
         const supergirlX = 45;
-        const supergirlY = (this.startCanvas.height - supergirlHeight) / 2.4; 
-        this.startContext.drawImage(supergirlImage, supergirlX, supergirlY, supergirlWidth, supergirlHeight);
+        const supergirlY = (this.startCanvas.height - supergirlHeight) / 2.4;
+        this.startContext.drawImage(
+          supergirlImage,
+          supergirlX,
+          supergirlY,
+          supergirlWidth,
+          supergirlHeight
+        );
       };
 
       this.startContext.fillStyle = "#0039e6";
@@ -47,16 +58,20 @@ const myGameArea = {
 
       // Draw the button
       this.buttonCtx.fillStyle = "#106cb0";
-      this.buttonCtx.fillRect(0,0, this.buttonCanvas.width,this.buttonCanvas.height);
+      this.buttonCtx.fillRect(
+        0,
+        0,
+        this.buttonCanvas.width,
+        this.buttonCanvas.height
+      );
+
+      const buttonPosX = this.startCanvas.width / 2 - 70;
+      const buttonPosY = this.startCanvas.height / 2 - 110;
 
       this.buttonCtx.fillStyle = "white";
       this.buttonCtx.font = "20px Arial";
       this.buttonCtx.fillText("Start", 37, 27);
-      this.startContext.drawImage(
-        this.buttonCanvas,
-        this.startCanvas.width / 2 - 70,
-        this.startCanvas.height / 2 - 110
-      );
+      this.startContext.drawImage(this.buttonCanvas, buttonPosX, buttonPosY);
 
       this.startContext.font = "bold 40px Arial";
       this.startContext.fillText(
@@ -81,23 +96,37 @@ const myGameArea = {
         160
       );
 
-      this.startCanvas.addEventListener("click", () => {
-        // to hide canvas
-        this.startCanvas.style.display = "none";
-        this.gameCanvas.style.display = "block";
+      this.startCanvas.addEventListener("click", (e) => {
+        const canvasX = e.clientX - this.startCanvas.offsetLeft;
+        const canvasY = e.clientY - this.startCanvas.offsetTop;
 
-        //gameCanvas
-        this.gameCanvas.width = 800;
-        this.gameCanvas.height = 600;
-        this.gameCanvas.style.border = "2px solid black";
-        this.context = this.gameCanvas.getContext("2d");
-        document.body.insertBefore(this.gameCanvas, document.body.childNodes[0]);
+        if (
+          canvasX > buttonPosX &&
+          canvasX < buttonPosX + this.buttonCanvas.width &&
+          canvasY > buttonPosY &&
+          canvasY < buttonPosY + this.buttonCanvas.height
+        ) {
+          // button clicked
+          // to hide canvas
+          this.startCanvas.style.display = "none";
+          this.gameCanvas.style.display = "block";
 
-        this.interval = setInterval(updateGameArea, 1);
+          //gameCanvas
+          this.gameCanvas.width = 800;
+          this.gameCanvas.height = 600;
+          this.gameCanvas.style.border = "2px solid black";
+          this.context = this.gameCanvas.getContext("2d");
+          document.body.insertBefore(
+            this.gameCanvas,
+            document.body.childNodes[0]
+          );
 
-        //background music
-        music = new sound("sound/game-music.mp3");
-        music.play();      
+          this.interval = setInterval(updateGameArea, 1);
+
+          //background music
+          music = new sound("sound/game-music.mp3");
+          music.play();
+        }
       });
     };
   },
@@ -112,7 +141,7 @@ const myGameArea = {
     gameOverMusic = new sound("sound/game-over.wav");
     gameOverMusic.play();
 
-    myGameArea.clear();    
+    myGameArea.clear();
 
     //gameover page
     this.gameOverCanvas.width = 1000;
@@ -121,7 +150,10 @@ const myGameArea = {
     this.gameOverContext = this.gameOverCanvas.getContext("2d");
     this.gameOverCanvas.style.display = "block";
     this.gameCanvas.style.display = "none";
-    document.body.insertBefore(this.gameOverCanvas, document.body.childNodes[0]);
+    document.body.insertBefore(
+      this.gameOverCanvas,
+      document.body.childNodes[0]
+    );
 
     // landing page background image setting
     const bgGameOver = new Image();
@@ -134,22 +166,16 @@ const myGameArea = {
         0,
         this.gameOverCanvas.width,
         this.gameOverCanvas.height
-      )
+      );
 
       this.gameOverContext.font = "bold 70px Arial";
       this.gameOverContext.fillStyle = "purple";
       this.gameOverContext.fillText(
         "GAME OVER",
-        this.gameOverCanvas.width / 2-250,
+        this.gameOverCanvas.width / 2 - 250,
         150
       );
-    
-    }
-
-      
-
-      
-
+    };
   },
   score: function () {
     const points = Math.floor(this.frames / 5);
@@ -158,8 +184,6 @@ const myGameArea = {
     this.context.fillText(`Score: ${points}`, 350, 50);
   },
 };
-
-
 
 // Component class is a common class used for creating supergirl, building and meteor
 class Component {
@@ -216,7 +240,7 @@ class Component {
   }
 
   crashWith(obstacle) {
-    const crashed = ! (
+    const crashed = !(
       this.bottom() < obstacle.top() ||
       this.top() > obstacle.bottom() ||
       this.right() < obstacle.left() ||
@@ -237,9 +261,9 @@ class Component {
 const player = new Component(70, 60, "images/supergirl.png", 0, 110); // Supergirl
 
 class Meteor extends Component {
-constructor(width, height, imageUrl, x, y) {
+  constructor(width, height, imageUrl, x, y) {
     super(width, height, imageUrl, x, y);
-    
+
     this.y = Math.floor(
       Math.random() * (myGameArea.gameCanvas.height - this.height)
     );
@@ -251,26 +275,29 @@ constructor(width, height, imageUrl, x, y) {
 
 const meteors = [];
 
-function updateMeteors() { // calls every 1 seconds
+function updateMeteors() {
+  // calls every 1 seconds
   for (let i = 0; i < meteors.length; i++) {
     meteors[i].x -= meteors[i].speedX; // initially the speed of the player is 2 and x axis is 800. Here we are decrementing the x axis by 2
     meteors[i].update();
 
-    
-    if (player.crashWith(meteors[i])) { // Checking if player got crashed with Meteros 
+    if (player.crashWith(meteors[i])) {
+      // Checking if player got crashed with Meteros
       player.damage += 1;
-      if (player.damage >= 3) { // Checking if player got crashed with Meteros more than 3
+      if (player.damage >= 3) {
+        // Checking if player got crashed with Meteros more than 3
         myGameArea.stop();
       } else {
         player.restartPos();
       }
-     meteors.splice(i, 1); // removing the crashed meteors with the player
-     i--;
-    } else if (meteors[i].x + meteors[i].width < 0) { //Deleting the meteors from meteors array which are out of the frame
+      meteors.splice(i, 1); // removing the crashed meteors with the player
+      i--;
+    } else if (meteors[i].x + meteors[i].width < 0) {
+      //Deleting the meteors from meteors array which are out of the frame
       meteors.splice(i, 1);
       i--;
     }
-    console.log(meteors)
+    console.log(meteors);
   }
 
   if (myGameArea.frames % 150 === 0) {
@@ -286,7 +313,6 @@ backgroundImage.src = "images/game-background.jpg";
 backgroundImage.width = 1200; // set the width of the background image
 backgroundImage.x = 0; // initialize the x position
 
-
 // let background = new Image();
 // background.src = "images/game-background.jpg";
 // let backgroundX = 0;
@@ -294,37 +320,35 @@ backgroundImage.x = 0; // initialize the x position
 
 function updateGameArea() {
   myGameArea.clear();
-  
-//   // Move the background to the left
-//  backgroundX -= backgroundSpeed;
-  
-//   // Wrap the background to create a continuous scrolling effect
-//   if (backgroundX <= -myGameArea.gameCanvas.width) { //-800
-//     backgroundX = 0;
-//   }
-   // draw the moving background image
-   backgroundImage.x -= 1;
-   myGameArea.context.drawImage(
-     backgroundImage,
-     backgroundImage.x,
-     0,
-     backgroundImage.width,
-     myGameArea.gameCanvas.height
-   );
-   myGameArea.context.drawImage(
-     backgroundImage,
-     backgroundImage.x + backgroundImage.width,
-     0,
-     backgroundImage.width,
-     myGameArea.gameCanvas.height
-   );
-   if (backgroundImage.x <= -backgroundImage.width) {
-     backgroundImage.x = 0;
-   }
-  // Draw the background image
- // myGameArea.context.drawImage(background, backgroundX, 0, myGameArea.gameCanvas.width, myGameArea.gameCanvas.height);
-  
 
+  //   // Move the background to the left
+  //  backgroundX -= backgroundSpeed;
+
+  //   // Wrap the background to create a continuous scrolling effect
+  //   if (backgroundX <= -myGameArea.gameCanvas.width) { //-800
+  //     backgroundX = 0;
+  //   }
+  // draw the moving background image
+  backgroundImage.x -= 1;
+  myGameArea.context.drawImage(
+    backgroundImage,
+    backgroundImage.x,
+    0,
+    backgroundImage.width,
+    myGameArea.gameCanvas.height
+  );
+  myGameArea.context.drawImage(
+    backgroundImage,
+    backgroundImage.x + backgroundImage.width,
+    0,
+    backgroundImage.width,
+    myGameArea.gameCanvas.height
+  );
+  if (backgroundImage.x <= -backgroundImage.width) {
+    backgroundImage.x = 0;
+  }
+  // Draw the background image
+  // myGameArea.context.drawImage(background, backgroundX, 0, myGameArea.gameCanvas.width, myGameArea.gameCanvas.height);
 
   // update the player's position before drawing
   player.newPos();
@@ -340,8 +364,6 @@ function updateGameArea() {
   myGameArea.context.fillText(`Damage: ${player.damage}`, 20, 50);
   updateMeteors();
 }
- 
-
 
 document.onkeydown = function (e) {
   switch (e.keyCode) {
@@ -372,7 +394,7 @@ function updateObstacles() {
   }
 
   myGameArea.frames += 1;
-  
+
   if (myGameArea.frames % 120 === 0) {
     let x = myGameArea.gameCanvas.width;
     let minHeight = 50;
@@ -384,7 +406,13 @@ function updateObstacles() {
     let maxGap = 100;
     let gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
-    const building = new Component(200, x - height - gap, "/images/apartment.png", x, height + gap)
+    const building = new Component(
+      200,
+      x - height - gap,
+      "/images/apartment.png",
+      x,
+      height + gap
+    );
     myObstacles.push(building);
   }
 }
@@ -406,13 +434,12 @@ function sound(src) {
   this.sound.setAttribute("controls", "none");
   this.sound.style.display = "none";
   document.body.appendChild(this.sound);
-  this.play = function(){
+  this.play = function () {
     this.sound.play();
-  }
-  this.stop = function(){
+  };
+  this.stop = function () {
     this.sound.pause();
-  }
+  };
 }
 
 myGameArea.start(); // Starting of the game
-
