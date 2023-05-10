@@ -128,6 +128,7 @@ const myGameArea = {
           music.play();
         }
       });
+
     };
   },
 
@@ -309,7 +310,7 @@ function updateMeteors() {
 
 // create the background canvas
 let backgroundImage = new Image();
-backgroundImage.src = "images/game-background.jpg";
+backgroundImage.src = "images/back.jpg";
 backgroundImage.width = 1200; // set the width of the background image
 backgroundImage.x = 0; // initialize the x position
 
@@ -409,7 +410,7 @@ function updateObstacles() {
     const building = new Component(
       200,
       x - height - gap,
-      "/images/apartment.png",
+      "images/apartment.png",
       x,
       height + gap
     );
