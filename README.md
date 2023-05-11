@@ -76,5 +76,5 @@ Get the player movements to appear  and move through the game
 
 ### Links
 - Trello https://trello.com/b/1aXujsfw/supergirls-heroic-quest
-- Slides
-- Deploy
+- Slides https://docs.google.com/presentation/d/1sNqnUTv-JFFakTj_YkcN6GlEQvWa7Vj2oeKEaEnf16Q/edit?usp=sharing
+- Deploy https://didemydn.github.io/project-module1-game/
