@@ -1,6 +1,6 @@
 # Supergirl's Heroic Quest
 
-![Tux, the Linux mascot](/images/supergirl.jpg)
+![Tux, the Linux mascot](/images/supergirl.png)
 
 ## Description
 
